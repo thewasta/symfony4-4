@@ -26,8 +26,6 @@ services:
       - ./:/var/www/html:rw,cached
     env_file:
       - .env
-    ports:
-      - "9000:9000"
 
 networks:
   symfony:
