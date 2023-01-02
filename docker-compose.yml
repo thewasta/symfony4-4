@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: docker_app-nginx
+    build:
+      dockerfile: docker/nginx/Dockerfile
+    networks:
+      - symfony
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      - php
+  php:
+    container_name: docker_app-php
+    build:
+      dockerfile: docker/php/Dockerfile
+      args:
+        GIT_MAIL: "mail@mail.com"
+        GIT_NAME: "Name Random"
+    networks:
+      - symfony
+    volumes:
+      - ./:/var/www/html:rw,cached
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+
+networks:
+  symfony:
+    driver: bridge
